@@ -1,4 +1,5 @@
 const cardano = require("./cardano")
+const { pickBy, identity  } = require('lodash');
 
 // 1. Get the wallet
 
@@ -21,7 +22,8 @@ const ASSET_NAME = "BerrySpaceGreen"
 
 // 5. Create ASSET_ID
 
-const ASSET_ID = POLICY_ID + "." + ASSET_NAME
+const ASSET_NAME_HEX = Buffer.from(ASSET_NAME, 'utf8').toString('hex');
+const ASSET_ID = POLICY_ID + "." + ASSET_NAME_HEX
 
 // 6. Define metadata
 
@@ -42,28 +44,34 @@ const metadata = {
 }
 
 // 7. Define transaction
+console.log("ASSET_ID: ", ASSET_ID)
+const cleanedBalanceValue = pickBy(wallet.balance().value, identity)
+console.log("wallet.balance().value: ", cleanedBalanceValue)
 
 const tx = {
     txIn: wallet.balance().utxo,
     txOut: [
         {
             address: wallet.paymentAddr,
-            value: { ...wallet.balance().value, [ASSET_ID]: 1 }
+            value: { ...cleanedBalanceValue, [ASSET_ID]: 1 }
         }
     ],
     mint: {
-        actions: [{ type: "mint", quantity: 1, asset: ASSET_ID }],
+        action: [{ type: "mint", quantity: 1, asset: ASSET_ID }],
         script: [mintScript]
     },
     metadata,
     witnessCount: 2
 }
+console.log("tx: ", JSON.stringify(tx))
 
 // 8. Build transaction
 
 const buildTransaction = (tx) => {
 
     const raw = cardano.transactionBuildRaw(tx)
+    console.log("template: ", raw)
+
     const fee = cardano.transactionCalculateMinFee({
         ...tx,
         txBody: raw
@@ -75,7 +83,7 @@ const buildTransaction = (tx) => {
 }
 
 const raw = buildTransaction(tx)
-
+console.log("raw: ", raw)
 // 9. Sign transaction
 
 const signTransaction = (wallet, tx) => {
@@ -87,6 +95,7 @@ const signTransaction = (wallet, tx) => {
 }
 
 const signed = signTransaction(wallet, raw)
+console.log("signed: ", signed)
 
 // 10. Submit transaction
 
