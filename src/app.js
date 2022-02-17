@@ -14,6 +14,6 @@ app.get('/nft', async (req, res) => {
     });
 })
 
-app.listen(80, () => {
+app.listen(8080, () => {
     console.log('HTTP server running on port 80');
 });
