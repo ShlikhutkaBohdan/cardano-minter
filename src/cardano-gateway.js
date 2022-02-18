@@ -112,11 +112,11 @@ const CardanoGateway = function () {
             const signed = this.signTransaction(raw)
             console.log("signed: ", signed)
 
-            // const txHash = this.submitTransaction(signed)
-            // console.log("txHash: ", txHash)
+            const txHash = this.submitTransaction(signed)
+            console.log("txHash: ", txHash)
 
             return {
-                // txHash: txHash,
+                txHash: txHash,
                 tx: resTx
             }
         } catch (e) {
