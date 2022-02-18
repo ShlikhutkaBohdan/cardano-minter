@@ -101,7 +101,7 @@ const CardanoGateway = function () {
                     action: [{ type: "mint", quantity: receiversCount, asset: ASSET_ID }],
                     script: [policyScript]
                 },
-                fullMetadata,
+                metadata: fullMetadata,
                 witnessCount: 2
             }
             console.log("tx: ", JSON.stringify(tx))
