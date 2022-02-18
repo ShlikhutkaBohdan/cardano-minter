@@ -44,6 +44,7 @@ const CardanoGateway = function () {
 
             // 4. Define ASSET_NAME
             const ASSET_NAME = tokenName;
+            console.log("tokenName: ", tokenName)
             const ASSET_NAME_HEX = Buffer.from(ASSET_NAME, 'utf8').toString('hex');
             const ASSET_ID = POLICY_ID + "." + ASSET_NAME_HEX
             console.log("ASSET_ID: ", ASSET_ID)
