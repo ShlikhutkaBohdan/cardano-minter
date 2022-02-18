@@ -9,22 +9,28 @@ const cardano = new CardanoGateway()
 app.use(bodyParser.json());
 
 app.use("*", function(req, res, next){
-    if (req.originalUrl === "/health-check") {
-        next()
-    }
-    let token = req.headers['authorization'] || req.headers['x-api-key']
-    if(token){
-        if(token !== config.apiKey){
-            res.status(403).json({
-                error : "Token invalid"
-            })
-        }
-        else {
+    try {
+        if (req.originalUrl === "/health-check") {
             next()
         }
-    } else {
-        res.status(403).json({
-            error : "Token missing"
+        let token = req.headers['authorization'] || req.headers['x-api-key']
+        if(token){
+            if(token !== config.apiKey){
+                res.status(403).json({
+                    error : "Token invalid"
+                })
+            }
+            else {
+                next()
+            }
+        } else {
+            res.status(403).json({
+                error : "Token missing"
+            })
+        }
+    } catch (e) {
+        res.status(500).json({
+            error : e
         })
     }
 })
