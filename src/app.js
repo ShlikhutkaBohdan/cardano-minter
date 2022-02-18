@@ -9,28 +9,22 @@ const cardano = new CardanoGateway()
 app.use(bodyParser.json());
 
 app.use("*", async function(req, res, next){
-    try {
-        if (req.originalUrl === "/health-check") {
-            await next()
-        }
-        let token = req.headers['authorization'] || req.headers['x-api-key']
-        if(token){
-            if(token !== config.apiKey){
-                res.status(403).json({
-                    error : "Token invalid"
-                })
-            }
-            else {
-                await next()
-            }
-        } else {
+    if (req.originalUrl === "/health-check") {
+        await next()
+    }
+    let token = req.headers['authorization'] || req.headers['x-api-key']
+    if(token){
+        if(token !== config.apiKey){
             res.status(403).json({
-                error : "Token missing"
+                error : "Token invalid"
             })
         }
-    } catch (e) {
-        res.status(500).json({
-            error : e
+        else {
+            await next()
+        }
+    } else {
+        res.status(403).json({
+            error : "Token missing"
         })
     }
 })
@@ -42,11 +36,23 @@ app.get('/health-check', async (req, res) => {
 })
 
 app.get('/status', async (req, res) => {
-    res.send(await cardano.getBlockchainStatus());
+    try {
+        res.send(await cardano.getBlockchainStatus());
+    } catch (e) {
+        res.status(500).json({
+            error : e
+        })
+    }
 })
 
 app.get('/balance', async (req, res) => {
-    res.send(await cardano.getBalance());
+    try {
+        res.send(await cardano.getBalance());
+    } catch (e) {
+        res.status(500).json({
+            error : e
+        })
+    }
 })
 
 /**
@@ -66,7 +72,13 @@ app.get('/balance', async (req, res) => {
  * }
  */
 app.post('/nft/mint', async (req, res) => {
-    res.send(await cardano.mintNft(req.body));
+    try {
+        res.send(await cardano.mintNft(req.body));
+    } catch (e) {
+        res.status(500).json({
+            error : e
+        })
+    }
 })
 
 app.listen(80, () => {
