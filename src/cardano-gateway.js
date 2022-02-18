@@ -9,13 +9,13 @@ const CardanoGateway = function () {
 
     this.getBlockchainStatus = async function() {
         return {
-            status: cardano.queryTip()
+            status: await cardano.queryTip()
         }
     }
 
     this.getBalance = async function () {
         return {
-            balance: cleanObject(paymentAccount.balance().value)
+            balance: await cleanObject(paymentAccount.balance().value)
         }
     }
 
