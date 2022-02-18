@@ -107,7 +107,7 @@ const CardanoGateway = function () {
 
         const { resTx, raw } = this.buildTransaction(tx)
         console.log("raw: ", raw)
-        console.log("resTx: ", resTx)
+        console.log("resTx: ", JSON.stringify(resTx))
 
         const signed = this.signTransaction(raw)
         console.log("signed: ", signed)
