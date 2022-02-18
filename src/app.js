@@ -29,14 +29,18 @@ app.use("*", function(req, res, next){
     }
 })
 
-app.get('/balance', async (req, res) => {
-    res.send(await cardano.getBalance());
-})
-
 app.get('/health-check', async (req, res) => {
     res.send({
         "balance": "0"
     });
+})
+
+app.get('/status', async (req, res) => {
+    res.send(await cardano.getBlockchainStatus());
+})
+
+app.get('/balance', async (req, res) => {
+    res.send(await cardano.getBalance());
 })
 
 /**
@@ -48,16 +52,10 @@ app.get('/health-check', async (req, res) => {
  * 		"addr1q8e7fphztve88edgz7wmg6c02h0z75kfe4yc759ct6nd5akjfgvw393gvd86tsvdzzgjam3s6j7lyhtqzhe06ej9chgq5u3t4p"
  * 	],
  * 	"metadata": {
- * 	  "721": {
- * 	    "0758dd15fc46ad532877ac70ca8dfcbc42dc7af98d76644390813efb": {
- * 	      "Nft1": {
- * 	      	"id": "1",
- * 	        "name": "Token name",
- * 	        "description": "Description",
- * 	        "image": "ipfs://Qm..."
- * 	      }
- * 	    }
- * 	  }
+ * 	  "id": "1",
+ *       "name": "Token name",
+ *       "description": "Description",
+ *       "image": "ipfs://Qm..."
  * 	}
  * }
  */
