@@ -15,7 +15,7 @@ const CardanoGateway = function () {
 
     this.getBalance = async function () {
         return {
-            balance: await cleanObject(paymentAccount.balance().value)
+            balance: cleanObject(await paymentAccount.balance().value)
         }
     }
 

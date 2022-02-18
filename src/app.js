@@ -8,9 +8,9 @@ const cardano = new CardanoGateway()
 
 app.use(bodyParser.json());
 
-app.use("*", async function(req, res, next){
+app.use("*", function(req, res, next){
     if (req.originalUrl === "/health-check") {
-        await next()
+        next()
     }
     let token = req.headers['authorization'] || req.headers['x-api-key']
     if(token){
@@ -20,7 +20,7 @@ app.use("*", async function(req, res, next){
             })
         }
         else {
-            await next()
+            next()
         }
     } else {
         res.status(403).json({
