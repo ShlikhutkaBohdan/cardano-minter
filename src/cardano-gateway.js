@@ -5,7 +5,7 @@ const config = require('./config')
 const paymentAccount = cardano.wallet(config.paymentAccount)
 const policyAccount = cardano.wallet(config.policyAccount)
 
-const CardanoGateway = () => {
+const CardanoGateway = function () {
 
     this.getBlockchainStatus = async function () {
         return {
