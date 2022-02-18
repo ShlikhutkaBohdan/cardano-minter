@@ -29,9 +29,9 @@ app.use("*", function(req, res, next){
     }
 })
 
-app.get('/health-check', async (req, res) => {
+app.get('/health-check', (req, res) => {
     res.send({
-        "balance": "0"
+        "message": "Success"
     });
 })
 
