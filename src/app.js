@@ -58,6 +58,7 @@ app.get('/balance', async (req, res) => {
 /**
  * Demo Mint request:
  * {
+ *  "tokenName": "NodeJs Token Name",
  * 	"receivers": [
  * 		"addr1q9j2r7lvq3kl2599fdywa7rsckhrmwufg4ch6kdx0vpehl98qu3dwpxawtf6lhxrt4jafq6taqsax7yql3fsjrteku8s7cf8qg",
  * 		"addr1q8v8rjf5njzeax6yc27mhewz7pt2qdxwnzdmpgu9fcvhds9s7wplf0yxq98ysrzu0zfsgc06w2a7av7p5g59t99azecqluv2w3",

@@ -98,7 +98,7 @@ const CardanoGateway = function () {
                     ...receiversTxOut
                 ],
                 mint: {
-                    action: [{ type: "mint", quantity: 2, asset: ASSET_ID }],
+                    action: [{ type: "mint", quantity: receiversCount, asset: ASSET_ID }],
                     script: [policyScript]
                 },
                 fullMetadata,
