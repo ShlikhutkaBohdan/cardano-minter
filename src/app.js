@@ -77,7 +77,7 @@ app.post('/nft/mint', async (req, res) => {
         res.send(await cardano.mintNft(req.body));
     } catch (e) {
         res.status(500).json({
-            error : e
+            error : JSON.stringify(e)
         })
     }
 })
