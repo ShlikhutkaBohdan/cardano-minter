@@ -144,8 +144,8 @@ const CardanoGateway = function () {
         })
     }
 
-    this.submitTransaction = function (tx) {
-        return cardano.transactionSubmit(signed)
+    this.submitTransaction = function (signedTx) {
+        return cardano.transactionSubmit(signedTx)
     }
 
 }
