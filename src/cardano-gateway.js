@@ -5,9 +5,9 @@ const config = require('./config')
 const paymentAccount = cardano.wallet(config.paymentAccount)
 const policyAccount = cardano.wallet(config.policyAccount)
 
-const CardanoGateway = function () {
+const CardanoGateway = () => {
 
-    this.getBlockchainStatus = async function() {
+    this.getBlockchainStatus = async function () {
         return {
             status: await cardano.queryTip()
         }
@@ -19,7 +19,7 @@ const CardanoGateway = function () {
         }
     }
 
-    this.mintNft = async function(params) {
+    this.mintNft = async function (params) {
         try {
             const { receivers, metadata, tokenName } = params
 
@@ -106,13 +106,50 @@ const CardanoGateway = function () {
             }
             console.log("tx: ", JSON.stringify(tx))
 
+            const { resTx, raw } = this.buildTransaction(tx)
+            console.log("raw: ", raw)
+
+            const signed = this.signTransaction(raw)
+            console.log("signed: ", signed)
+
+            // const txHash = this.submitTransaction(signed)
+            // console.log("txHash: ", txHash)
+
             return {
-                ...tx
+                // txHash: txHash,
+                tx: resTx
             }
         } catch (e) {
             console.log(e)
             throw e
         }
+    }
+
+    this.buildTransaction = function (tx) {
+
+        const raw = cardano.transactionBuildRaw(tx)
+        const fee = cardano.transactionCalculateMinFee({
+            ...tx,
+            txBody: raw
+        })
+
+        tx.txOut[0].value.lovelace -= fee
+
+        const resTx = { ...tx, fee }
+        console.log("fee: ", fee)
+
+        return { raw: cardano.transactionBuildRaw(resTx), resTx: resTx }
+    }
+
+    this.signTransaction = function (tx) {
+        return cardano.transactionSign({
+            signingKeys: [paymentAccount.payment.skey, policyAccount.payment.skey],
+            txBody: tx
+        })
+    }
+
+    this.submitTransaction = function (tx) {
+        return cardano.transactionSubmit(signed)
     }
 
 }
