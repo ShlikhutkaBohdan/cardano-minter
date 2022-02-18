@@ -110,6 +110,7 @@ const CardanoGateway = function () {
             }
         } catch (e) {
             console.log(e)
+            throw e
         }
     }
 
