@@ -16,7 +16,8 @@ app.use("*", function(req, res, next){
     if(token){
         if(token !== config.apiKey){
             res.status(403).json({
-                error : "Token invalid"
+                statusCode: 403,
+                message : "Token invalid"
             })
         }
         else {
@@ -24,7 +25,8 @@ app.use("*", function(req, res, next){
         }
     } else {
         res.status(403).json({
-            error : "Token missing"
+            statusCode: 403,
+            message : "Token missing"
         })
     }
 })
@@ -40,7 +42,8 @@ app.get('/status', async (req, res) => {
         res.send(await cardano.getBlockchainStatus());
     } catch (e) {
         res.status(500).json({
-            error : e.message
+            statusCode: 500,
+            message : e.message
         })
     }
 })
@@ -50,7 +53,8 @@ app.get('/balance', async (req, res) => {
         res.send(await cardano.getBalance());
     } catch (e) {
         res.status(500).json({
-            error : e.message
+            statusCode: 500,
+            message : e.message
         })
     }
 })
@@ -78,7 +82,8 @@ app.post('/nft/mint', async (req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).json({
-            error : e.message
+            statusCode: 500,
+            message : e.message
         })
     }
 })
