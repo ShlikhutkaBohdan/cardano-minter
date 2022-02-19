@@ -50,7 +50,7 @@ app.get('/balance', async (req, res) => {
         res.send(await cardano.getBalance());
     } catch (e) {
         res.status(500).json({
-            error : e.message
+            error : "Error Mint Nft with unknown reason"
         })
     }
 })
