@@ -40,7 +40,7 @@ app.get('/status', async (req, res) => {
         res.send(await cardano.getBlockchainStatus());
     } catch (e) {
         res.status(500).json({
-            error : e
+            error : e.message
         })
     }
 })
@@ -50,7 +50,7 @@ app.get('/balance', async (req, res) => {
         res.send(await cardano.getBalance());
     } catch (e) {
         res.status(500).json({
-            error : "Error Mint Nft with unknown reason"
+            error : e.message
         })
     }
 })
@@ -78,7 +78,8 @@ app.post('/nft/mint', async (req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).json({
-            error : e
+            error : e.message,
+            error2 : "Error Mint Nft with unknown reason"
         })
     }
 })
