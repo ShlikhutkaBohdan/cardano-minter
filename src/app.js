@@ -78,8 +78,7 @@ app.post('/nft/mint', async (req, res) => {
     } catch (e) {
         console.log(e)
         res.status(500).json({
-            error : e.message,
-            error2 : "Error Mint Nft with unknown reason"
+            error : "Error Mint Nft with unknown reason"
         })
     }
 })
